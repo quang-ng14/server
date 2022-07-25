@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>
+        <%=title%> - Cam 3
+    </title>
+    <script src="https://raw.githack.com/phoboslab/jsmpeg/master/jsmpeg.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="www/favicon.ico">
+    <style>
+        .cam-container {
+            margin: 0px auto;
+            width: 640px;
+        }
+
+        .cam-canvas {
+            height: 480px !important;
+            width: 620px !important;
+            background: black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cam-container">
+        <canvas class="cam-canvas" id="canvas-cam3"></canvas>
+    </div>
+    <script>
+        var name = sessionStorage.getItem('name');
+        if (name != "undefined" && name != "null") {
+        }
+        else
+            document.location.href = '/login';
+
+        let player3 = new JSMpeg.Player('ws://<%=streamHost%>:85', {
+             canvas: document.getElementById('canvas-cam3'), // Canvas should be a canvas DOM element
+             autoplay: true,
+             audio: false,
+         });
+    </script>
+</body>
+
+</html>

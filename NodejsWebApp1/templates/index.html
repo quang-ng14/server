@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>
+        <%=title%>
+    </title>
+    <script src="https://raw.githack.com/phoboslab/jsmpeg/master/jsmpeg.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="www/favicon.ico">
+    <style>
+        .cam-container{
+            margin: 0px auto;
+            width: 940px;
+        }
+        .cam-canvas{
+            height: 320px!important; 
+            width: 460px!important;
+            background:black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cam-container">
+        <canvas class="cam-canvas" id="canvas-cam1"></canvas>
+        <canvas class="cam-canvas" id="canvas-cam2"></canvas>
+        <canvas class="cam-canvas" id="canvas-cam3"></canvas>
+        <canvas class="cam-canvas" id="canvas-cam4"></canvas>
+    </div>
+    <script>
+
+        var name = sessionStorage.getItem('name');
+        if (name != "undefined" && name != "null") {
+        }
+        else
+            document.location.href = '/login';
+
+
+        let player1 = new JSMpeg.Player('ws://<%=streamHost%>:81', {
+            canvas: document.getElementById('canvas-cam1'), // Canvas should be a canvas DOM element
+            autoplay: true,
+            audio: false,
+        });
+        let player2 = new JSMpeg.Player('ws://<%=streamHost%>:82', {
+             canvas: document.getElementById('canvas-cam2'), // Canvas should be a canvas DOM element
+             autoplay: true,
+             audio: false,
+         });
+        let player3 = new JSMpeg.Player('ws://<%=streamHost%>:85', {
+             canvas: document.getElementById('canvas-cam3'), // Canvas should be a canvas DOM element
+             autoplay: true,
+             audio: false,
+         });
+        let player4 = new JSMpeg.Player('ws://<%=streamHost%>:84', {
+             canvas: document.getElementById('canvas-cam4'), // Canvas should be a canvas DOM element
+             autoplay: true,
+             audio: false,
+         });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Streaming With Node</title>
+    <style>
+        body {
+            margin: 5% auto;
+            max-width: 100%;
+            /* background-color: rgb(14, 14, 14); */
+            padding-top: 10%;
+            padding-left: 35%;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <form action=""> -->
+    <label for="birthdaytime">Birthday (date and time):</label>
+    <input type="datetime-local" id="startTime" name="starttime">
+    <input type="datetime-local" id="endTime" name="endtime">
+    <button id="submitTime">Submit</button>
+    <!-- </form> -->
+    <video id="videoPlayer" width="50%" controls muted="muted" autoplay>
+        <source type="video/mp4" id="sourceVideo" src="/video" />
+    </video>
+
+    <div id="List_file">
+        <ul id="List_file1">
+        </ul>
+    </div>
+</body>
+<script>
+    //var name = sessionStorage.getItem('name');
+    //if (name != "undefined" && name != "null") {
+    //}
+    //else
+    //    document.location.href = '/login';
+
+    function getStartEndTime() {
+        const startTime = document.getElementById('startTime').value;
+        const endTime = document.getElementById('endTime').value;
+        console.log(startTime, endTime);
+        const timeChosen = startTime.split('T');
+        const dayChosen = timeChosen[0]
+        console.log(dayChosen);
+        const hourChosen = timeChosen[1].split(':')[0];
+        console.log(dayChosen, hourChosen);
+        // Coi nhu da co folder, check sau (SE CHECK)
+        // 0h check
+        return { dayChosen, hourChosen };
+    }
+
+    // Check if user clicked!
+    var dataDate = '';
+    const buttonDateClicked = document.getElementById('submitTime');
+    buttonDateClicked.addEventListener('click', () => {
+        dataDate = getStartEndTime();
+        console.log(dataDate);
+
+        // Send post request to back-end
+        fetch('/add-time', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dataDate)
+        }).then(res => {
+            console.log('Post completed!');
+            showListRecord();
+        }).catch(err => console.log(err));
+    })
+
+
+    // Coi nhu da co folder, check sau (SE CHECK)
+    // 0h check
+
+    async function showListRecord() {
+        var List_record = await fetch("/video-record");
+        List_record = await List_record.json();
+
+        console.log(List_record.dataRecord);
+
+        const element = document.getElementById("List_file1");
+        for (let i = 0; i < List_record.dataRecord.length; i++) {
+            var k = List_record.dataRecord[i];
+            const li = document.createElement("li");
+            const atag = document.createElement("a");
+            const nodeData = document.createTextNode(k);
+
+            // tao them id cho atag nhe
+            atag.appendChild(nodeData);
+            atag.setAttribute('href', '/record');
+            atag.setAttribute('target', '_blank');
+            li.appendChild(atag);
+            element.appendChild(li);
+            // atag.setAttribute('href', 'video');
+        }
+
+        clickToGetVideo();
+    }
+    function clickToGetVideo() {
+        const test = document.getElementsByTagName('a');
+        console.log(test);
+        if (test.length != 0) {
+            var arr = Array.from(test);
+            arr.forEach(video => {
+                video.addEventListener('click', () => {
+                    console.log(video.innerText);
+                    const dataName = video.innerText;
+
+                    // Send post request to back-end
+                    fetch('/video1', {
+                        method: "POST",
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ dataName })
+                    }).then(res => {
+                        console.log('Post completed1!', res);
+                        return fetch('/video');
+                    }).then(() => {
+                        // document.getElementById('sourceVideo').setAttribute('src', '/video');
+                        const videoPlayer = document.getElementById('videoPlayer');
+                        videoPlayer.load();
+                    })
+                        .catch(err => console.log(err))
+                })
+
+            });
+        }
+    }
+
+</script>
+
+</html>
