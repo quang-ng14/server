@@ -28,13 +28,13 @@ app.set('view engine', 'ejs');
 app.set('views', __dirname + "/templates");
 app.get('/', (req, res) => {
     //res.contentType("text/plain");
-    res.render("index.html", { title: "Stream", streamHost: /*"34.143.192.209"*/ "localhost" /*  "34.143.192.209" */ });
+    res.render("index.html", { title: "Stream", streamHost: "34.143.192.209" /*"localhost" */ /*  "34.143.192.209" */ });
     //res.sendFile(__dirname + "/templates/index.html");
 });
 app.get('/cam/:id', (req, res) => {
     //res.contentType("text/plain");
     let camId = req.params.id;
-    res.render("cam" + camId + ".html", { title: "Stream", streamHost: "localhost" /*"34.143.192.209"*/ });
+    res.render("cam" + camId + ".html", { title: "Stream", streamHost: /*"localhost" */ "34.143.192.209" });
     //res.sendFile(__dirname + "/templates/index.html");
 });
 app.get('/login', (req, res) => {
