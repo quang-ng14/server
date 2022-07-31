@@ -9,25 +9,44 @@
     </title>
     <script src="https://raw.githack.com/phoboslab/jsmpeg/master/jsmpeg.min.js"></script>
     <link rel="icon" type="image/x-icon" href="www/favicon.ico">
-    <style>
-        .cam-container{
-            margin: 0px auto;
-            width: 940px;
-        }
-        .cam-canvas{
-            height: 320px!important; 
-            width: 460px!important;
-            background:black;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+
 </head>
 
 <body>
+    <div class="container-header indigo topBotomBordersOut">
+        <a>HOME</a>
+        <a>DETAIL</a>
+        <a>RECORD</a>
+    </div>
+    <h1 style="font-size: 40px; font-weight: 600; text-align: center">Streaming Camera</h1>
+    <button class="add-camera">
+        <div class="pretext">
+            <i class="fa-solid fa-camera"></i><span>Add camera</span>
+        </div>
+        <div class="pretext done">
+            <div class="posttext"><i class="fas fa-check"></i> ADDED</div>
+        </div>
+    </button>
     <div class="cam-container">
-        <canvas class="cam-canvas" id="canvas-cam1"></canvas>
-        <canvas class="cam-canvas" id="canvas-cam2"></canvas>
-        <canvas class="cam-canvas" id="canvas-cam3"></canvas>
-        <canvas class="cam-canvas" id="canvas-cam4"></canvas>
+        <div class="cam-item">
+            <canvas class="cam-canvas" id="canvas-cam1" width="500" height="360" style="border:1px solid"></canvas>
+            <p class="cam-name">Cam 1</p>
+        </div>
+        <div class="cam-item">
+            <canvas class="cam-canvas" id="canvas-cam2" width="500" height="360" style="border:1px solid"></canvas>
+            <p class="cam-name">Cam 2</p>
+
+        </div>
+        <div class="cam-item">
+            <canvas class="cam-canvas" id="canvas-cam3" width="500" height="360" style="border:1px solid"></canvas>
+            <p class="cam-name">Cam 3</p>
+        </div>
+        <div class="cam-item">
+            <canvas class="cam-canvas" id="canvas-cam4" width="500" height="360" style="border:1px solid"></canvas>
+            <p class="cam-name">Cam 4</p>
+        </div>
     </div>
     <script>
 
@@ -44,20 +63,20 @@
             audio: false,
         });
         let player2 = new JSMpeg.Player('ws://<%=streamHost%>:82', {
-             canvas: document.getElementById('canvas-cam2'), // Canvas should be a canvas DOM element
-             autoplay: true,
-             audio: false,
-         });
+            canvas: document.getElementById('canvas-cam2'), // Canvas should be a canvas DOM element
+            autoplay: true,
+            audio: false,
+        });
         let player3 = new JSMpeg.Player('ws://<%=streamHost%>:85', {
-             canvas: document.getElementById('canvas-cam3'), // Canvas should be a canvas DOM element
-             autoplay: true,
-             audio: false,
-         });
+            canvas: document.getElementById('canvas-cam3'), // Canvas should be a canvas DOM element
+            autoplay: true,
+            audio: false,
+        });
         let player4 = new JSMpeg.Player('ws://<%=streamHost%>:84', {
-             canvas: document.getElementById('canvas-cam4'), // Canvas should be a canvas DOM element
-             autoplay: true,
-             audio: false,
-         });
+            canvas: document.getElementById('canvas-cam4'), // Canvas should be a canvas DOM element
+            autoplay: true,
+            audio: false,
+        });
     </script>
 </body>
 

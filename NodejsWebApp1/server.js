@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const fs = require("fs");
 const node_rtsp_stream_1 = __importDefault(require("node-rtsp-stream"));
+const changeExtension = require("./utils/changeExtension");
 const findVideos = require("./utils/findVideos");
 const Recorder = require('node-rtsp-recorder').Recorder;
 const port = 80;
@@ -27,13 +28,13 @@ app.set('view engine', 'ejs');
 app.set('views', __dirname + "/templates");
 app.get('/', (req, res) => {
     //res.contentType("text/plain");
-    res.render("index.html", { title: "Stream", streamHost: "34.143.192.209" /* "localhost"  "34.143.192.209" */ });
+    res.render("index.html", { title: "Stream", streamHost: /*"34.143.192.209"*/ "localhost" /*  "34.143.192.209" */ });
     //res.sendFile(__dirname + "/templates/index.html");
 });
 app.get('/cam/:id', (req, res) => {
     //res.contentType("text/plain");
     let camId = req.params.id;
-    res.render("cam" + camId + ".html", { title: "Stream", streamHost: "34.143.192.209" });
+    res.render("cam" + camId + ".html", { title: "Stream", streamHost: "localhost" /*"34.143.192.209"*/ });
     //res.sendFile(__dirname + "/templates/index.html");
 });
 app.get('/login', (req, res) => {
@@ -92,7 +93,7 @@ app.post('/add-time', function (req, res) {
         videoDirectory = `${__dirname}/video_test/cam1/${dataDate}/video`;
         console.log('2+ ' + dataDate + dataHour);
         // ham change extension
-        //changeExtension(videoDirectory);
+        changeExtension(videoDirectory);
     }
     res.status(200).json({
         status: 'success',
@@ -117,6 +118,8 @@ app.post('/video1', function (req, res) {
     console.log(req.body);
     if (req.body) {
         nameFile = req.body;
+        // ham change extension
+        //changeExtension(videoDirectory, nameFile.dataName);
     }
     res.status(200).json({
         nameFile
@@ -167,7 +170,7 @@ app.get("/video", function (req, res) {
 var RecordPath = __dirname + '/video_test/';
 var rec = new Recorder({
     url: 'rtsp://34.127.2.194:554/cam1',
-    timeLimit: 30,
+    timeLimit: 300,
     folder: RecordPath,
     //folder: 'D:/Download/NodejsWebApp1-express-master/NodejsWebApp1/video_test',
     name: 'cam1',

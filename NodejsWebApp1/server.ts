@@ -19,15 +19,17 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'ejs');
 app.set('views', __dirname + "/templates");
 
+
+
 app.get('/', (req, res) => {
     //res.contentType("text/plain");
-    res.render("index.html", { title: "Stream", streamHost: "34.143.192.209" /* "localhost"  "34.143.192.209" */ });
+    res.render("index.html", { title: "Stream", streamHost: "34.143.192.209"  /*"localhost" *//*  "34.143.192.209" */ });
     //res.sendFile(__dirname + "/templates/index.html");
 })
 app.get('/cam/:id', (req, res) => {
     //res.contentType("text/plain");
     let camId = req.params.id;
-    res.render("cam" + camId + ".html", { title: "Stream", streamHost: "34.143.192.209" });
+    res.render("cam" + camId + ".html", { title: "Stream", streamHost: /*"localhost" */"34.143.192.209" });
     //res.sendFile(__dirname + "/templates/index.html");
 })
 
@@ -74,7 +76,6 @@ let rtspConvToWs4 = new Stream({
     }
 });
 
-
 var dataDate;
 var dataHour;
 var videoDirectory = `${__dirname}/video_test/cam1/${dataDate}/video`;
@@ -82,7 +83,7 @@ var nameFile;
 
 app.get("/record", function (req, res) {
     //res.sendFile(__dirname + "/templates/index2.html");
-    res.render("index2.html", { title: "Record"});
+    res.render("index2.html", { title: "Record" });
 });
 
 app.post('/add-time', function (req, res) {
@@ -92,7 +93,7 @@ app.post('/add-time', function (req, res) {
         videoDirectory = `${__dirname}/video_test/cam1/${dataDate}/video`;
         console.log('2+ ' + dataDate + dataHour);
         // ham change extension
-        //changeExtension(videoDirectory);
+        changeExtension(videoDirectory);
     }
     res.status(200).json({
         status: 'success',
@@ -117,6 +118,9 @@ app.post('/video1', function (req, res) {
     console.log(req.body);
     if (req.body) {
         nameFile = req.body;
+
+        // ham change extension
+        //changeExtension(videoDirectory, nameFile.dataName);
     }
 
     res.status(200).json({
@@ -177,7 +181,7 @@ app.get("/video", function (req, res) {
 var RecordPath = __dirname + '/video_test/';
 var rec = new Recorder({
     url: 'rtsp://34.127.2.194:554/cam1',
-    timeLimit: 30, // time in seconds for each segmented video file
+    timeLimit: 300, // time in seconds for each segmented video file
     folder: RecordPath,
     //folder: 'D:/Download/NodejsWebApp1-express-master/NodejsWebApp1/video_test',
     name: 'cam1',
