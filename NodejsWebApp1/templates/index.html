@@ -16,9 +16,9 @@
 
 <body>
     <div class="container-header indigo topBotomBordersOut">
-        <a>HOME</a>
-        <a>DETAIL</a>
-        <a>RECORD</a>
+        <a href="/">HOME</a>
+        <a href="/cam/1">DETAIL</a>
+        <a href="/record">RECORD</a>
     </div>
     <h1 style="font-size: 40px; font-weight: 600; text-align: center">Streaming Camera</h1>
     <button class="add-camera">
@@ -31,21 +31,61 @@
     </button>
     <div class="cam-container">
         <div class="cam-item">
-            <canvas class="cam-canvas" id="canvas-cam1" style="border:1px solid; width: 500px !important; height: 360px !important"></canvas>
-            <p class="cam-name">Cam 1</p>
+            <canvas class="cam-canvas" id="canvas-cam1"
+                style="border:1px solid; width: 500px !important; height: 360px !important;"></canvas>
+            <div class="cam-name-editable">
+                <a href="/cam/1" style="text-decoration: none"><span class="cam-name">Cam 1</span></a>
+                <button class=" edit-name-btn" style="background-color: transparent; border: none"><i
+                        class="fa-solid fa-pen-to-square fa-xl"></i></button>
+                <div class="edit-name">
+                    <input type="text" placeholder="New name" class="edit"></input>
+                    <button style="background-color: transparent; border: none" class="send-name"><i
+                            class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
         </div>
         <div class="cam-item">
-            <canvas class="cam-canvas" id="canvas-cam2" style="border:1px solid; width: 500px !important; height: 360px !important"></canvas>
-            <p class="cam-name">Cam 2</p>
+            <canvas class="cam-canvas" id="canvas-cam2"
+                style="border:1px solid; width: 500px !important; height: 360px !important"></canvas>
+            <div class="cam-name-editable">
+                <a href="/cam/2" style="text-decoration: none"><span class="cam-name">Cam 2</span></a>
+                <button class=" edit-name-btn" style="background-color: transparent; border: none"><i
+                        class="fa-solid fa-pen-to-square fa-xl"></i></button>
+                <div class="edit-name">
+                    <input type="text" placeholder="New name" class="edit"></input>
+                    <button style="background-color: transparent; border: none" class="send-name"><i
+                            class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
 
         </div>
         <div class="cam-item">
-            <canvas class="cam-canvas" id="canvas-cam3" style="border:1px solid; width: 500px !important; height: 360px !important"></canvas>
-            <p class="cam-name">Cam 3</p>
+            <canvas class="cam-canvas" id="canvas-cam3"
+                style="border:1px solid; width: 500px !important; height: 360px !important"></canvas>
+            <div class="cam-name-editable">
+                <a href="/cam/3" style="text-decoration: none"><span class="cam-name">Cam 3</span></a>
+                <button class=" edit-name-btn" style="background-color: transparent; border: none"><i
+                        class="fa-solid fa-pen-to-square fa-xl"></i></button>
+                <div class="edit-name">
+                    <input type="text" placeholder="New name" class="edit"></input>
+                    <button style="background-color: transparent; border: none" class="send-name"><i
+                            class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
         </div>
         <div class="cam-item">
-            <canvas class="cam-canvas" id="canvas-cam4" style="border:1px solid; width: 500px !important; height: 360px !important"></canvas>
-            <p class="cam-name">Cam 4</p>
+            <canvas class="cam-canvas" id="canvas-cam4"
+                style="border:1px solid; width: 500px !important; height: 360px !important"></canvas>
+            <div class="cam-name-editable">
+                <a href="/cam/4"     style="text-decoration: none"><span class="cam-name">Cam 4</span></a>
+                <button class=" edit-name-btn" style="background-color: transparent; border: none"><i
+                        class="fa-solid fa-pen-to-square fa-xl"></i></button>
+                <div class="edit-name">
+                    <input type="text" placeholder="New name" class="edit"></input>
+                    <button style="background-color: transparent; border: none" class="send-name"><i
+                            class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
         </div>
     </div>
     <script>
@@ -56,6 +96,30 @@
         else
             document.location.href = '/login';
 
+        const editButton = document.querySelectorAll('.edit-name-btn');
+        var elementToChangeName;
+        var editInput;
+        editButton.forEach(elementBtn => {
+            elementBtn.addEventListener('click', () => {
+                editInput = elementBtn.nextElementSibling;
+                elementToChangeName = elementBtn.previousElementSibling;
+                editInput.classList.toggle('display');
+            })
+        })
+
+        const sendButton = document.querySelectorAll('.send-name');
+        sendButton.forEach(elementSendButton => {
+            elementSendButton.addEventListener('click', () => {
+                var inputValue = elementSendButton.previousElementSibling.value;
+                changeName(elementToChangeName, inputValue);
+                editInput.classList.remove('display');
+            })
+
+        })
+
+        function changeName(element, name) {
+            element.innerText = name;
+        }
 
         let player1 = new JSMpeg.Player('ws://<%=streamHost%>:81', {
             canvas: document.getElementById('canvas-cam1'), // Canvas should be a canvas DOM element

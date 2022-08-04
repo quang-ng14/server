@@ -165,8 +165,40 @@ i {
 
 .cam-name {
     font-size: 30px;
-    padding-top: 10px;
+    padding: 10px 10px 0 0;
     font-weight: 600;
+}
+
+.edit-name {
+    width: 200px;
+    margin: 0 auto;
+    border: 2px dashed #3f51b5;
+    display: none;
+}
+
+
+.display {
+    display: block;
+}
+
+.send-name {
+    width: 25px;
+    height: 25px;
+}
+
+.edit-name-btn:hover,
+.send-name:hover {
+    cursor: pointer;
+}
+
+.edit-name .edit {
+    border: none;
+    height: 40px;
+    outline: none;
+    appearance: none;
+    font-size: 15px;
+    font-weight: 400;
+    font-family: 'Raleway', sans-serif;
 }
 
 .container-time input {
