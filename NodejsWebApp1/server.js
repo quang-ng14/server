@@ -78,10 +78,16 @@ let rtspConvToWs4 = new node_rtsp_stream_1.default({
         '-r': 30 // options with required values specify the value after the key
     }
 });
+var nameChanged;
 var dataDate;
 var dataHour;
 var videoDirectory = `${__dirname}/video_test/cam1/${dataDate}/video`;
 var nameFile;
+// set name;
+var cam1 = "Cam 1";
+var cam2 = "Cam 2";
+var cam3 = "Cam 3";
+var cam4 = "Cam 4";
 app.get("/record", function (req, res) {
     //res.sendFile(__dirname + "/templates/index2.html");
     res.render("index2.html", { title: "Record" });
@@ -112,6 +118,36 @@ app.get('/video-record', function (req, res) {
             status: 'success',
             dataRecord
         });
+    });
+});
+app.get('/get-cam-name', function (req, res) {
+    res.status(200).json({
+        status: 'success',
+        cam1,
+        cam2,
+        cam3,
+        cam4,
+    });
+});
+app.post('/change-name/', function (req, res) {
+    if (req.body.id && req.body.name) {
+        var id = req.body.id;
+        var name = req.body.name;
+        if (id == 1)
+            cam1 = name;
+        else if (id == 2)
+            cam2 = name;
+        else if (id == 3)
+            cam3 = name;
+        else
+            cam4 = name;
+    }
+    res.status(200).json({
+        status: 'success',
+        cam1,
+        cam2,
+        cam3,
+        cam4,
     });
 });
 app.post('/video1', function (req, res) {

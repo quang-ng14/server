@@ -77,7 +77,7 @@
             <canvas class="cam-canvas" id="canvas-cam4"
                 style="border:1px solid; width: 500px !important; height: 360px !important"></canvas>
             <div class="cam-name-editable">
-                <a href="/cam/4"     style="text-decoration: none"><span class="cam-name">Cam 4</span></a>
+                <a href="/cam/4" style="text-decoration: none"><span class="cam-name">Cam 4</span></a>
                 <button class=" edit-name-btn" style="background-color: transparent; border: none"><i
                         class="fa-solid fa-pen-to-square fa-xl"></i></button>
                 <div class="edit-name">
@@ -88,6 +88,39 @@
             </div>
         </div>
     </div>
+    <div class="popup-add-camera">
+        <div class="container">
+            <span class="close">&times;</span>
+            <h1>Add Camera</h1>
+            <!-- <p>Please fill in this form to add camera</p> -->
+            <hr>
+            <label for="email"><b>ID</b></label>
+            <input type="text" placeholder="Enter ID" name="email" class="input-camera" id="email" required>
+
+            <label for="psw"><b>Name</b></label>
+            <input type="text" placeholder="Enter Name" name="psw" class="input-camera" id="psw" required>
+
+            <label for="psw-repeat"><b>Location</b></label>
+            <input type="text" placeholder="Enter Location" class="input-camera" name="psw-repeat" required>
+
+            <label for="psw-repeat"><b>Port</b></label>
+            <input type="text" placeholder="Enter Port" class="input-camera" name="psw-repeat" required>
+
+            <label for="psw-repeat"><b>Protocol</b></label>
+            <input type="text" placeholder="Enter Protocol" class="input-camera" name="psw-repeat" required>
+
+            <label for="psw-repeat"><b>URL</b></label>
+            <input type="text" placeholder="Enter URL" class="input-camera" name="psw-repeat" required>
+            <hr>
+
+            <p style="color:red">By adding camera you agree to our <a href="#"></a>.</p>
+            <button type="submit" class="addcamerabtn">Add Camera</button>
+        </div>
+    </div>
+    <div class="alert success">
+        <span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>
+        <strong>Success!</strong> Bạn đã add camera thành công.
+    </div>
     <script>
 
         var name = sessionStorage.getItem('name');
@@ -95,6 +128,37 @@
         }
         else
             document.location.href = '/login';
+
+        const cameraButton = document.querySelector('.add-camera');
+        const popupCamera = document.querySelector('.popup-add-camera');
+        cameraButton.addEventListener('click', (event) => {
+            console.log(popupCamera);
+            popupCamera.style.display = 'block';
+        })
+
+        const closePopupCamera = document.querySelector('.close');
+        closePopupCamera.addEventListener('click', () => {
+            popupCamera.style.display = 'none';
+        })
+
+        const addCameraButton = document.querySelector('.addcamerabtn');
+        addCameraButton.addEventListener('click', () => {
+            const popUpSuccess = document.querySelector('.alert');
+            popupCamera.style.display = 'none';
+            popUpSuccess.style.display = 'block';
+        })
+
+        const setNameToAll = () => {
+            fetch('/get-cam-name')
+                .then(res => res.json())
+                .then(data => {
+                    const camList = document.querySelectorAll('.cam-name');
+                    camList.forEach((elementCam, index) => {
+                        elementCam.innerText = Object.values(data)[index + 1];
+                    })
+                });
+        }
+        setNameToAll();
 
         const editButton = document.querySelectorAll('.edit-name-btn');
         var elementToChangeName;
@@ -111,11 +175,29 @@
         sendButton.forEach(elementSendButton => {
             elementSendButton.addEventListener('click', () => {
                 var inputValue = elementSendButton.previousElementSibling.value;
+                console.log(elementToChangeName);
+                var getCameraID = elementToChangeName.getAttribute("href").split("/").pop();
+                console.log(getCameraID);
+                // Shape of API
+                console.log({ 'id': getCameraID, 'name': inputValue })
                 changeName(elementToChangeName, inputValue);
+                // API To change name
+                changeNameAPI({ 'id': getCameraID, 'name': inputValue });
+                elementToChangeName.classList.add('cam-name');
                 editInput.classList.remove('display');
             })
 
         })
+
+        const changeNameAPI = (name) => {
+            fetch('/change-name', {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(name)
+            }).then(res => {
+                console.log('completed changed name!');
+            }).catch(err => console.log(err));
+        }
 
         function changeName(element, name) {
             element.innerText = name;

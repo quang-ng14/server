@@ -28,7 +28,7 @@
 <body>
     <div class="container-header indigo topBotomBordersOut">
         <a href="/">HOME</a>
-        <a href="/cam/1">DETAIL</a>
+        <a href="/cam/2">DETAIL</a>
         <a href="/record">RECORD</a>
     </div>
     <div class="button-cam-record">
@@ -39,27 +39,111 @@
         </button>
         <button class="add-record">
             <div class="pretext">
-                <i class="fa-solid fa-record-vinyl"></i><span>Record</span>
+                <i class="fa-solid fa-record-vinyl blink"></i><span>Record</span>
             </div>
         </button>
     </div>
     <div class="cam-item" style="text-align: center; margin: 0 auto;    ">
-        <canvas class="cam-canvas" id="canvas-cam1" width="500" height="360" style="border:1px solid"></canvas>
-        <p class="cam-name">Cam 2</p>
+        <canvas class="cam-canvas" id="canvas-cam2" width="500" height="360" style="border:1px solid"></canvas>
+        <div class="cam-name-editable">
+            <span class="cam-name">Cam 2</span>
+            <button class="edit-name-btn" style="background-color: transparent; border: none"><i
+                    class="fa-solid fa-circle-info fa-2xl"></i></button>
+        </div>
     </div>
-    <script>
-        var name = sessionStorage.getItem('name');
-        if (name != "undefined" && name != "null") {
-        }
-        else
-            document.location.href = '/login';
+    <div class="popup-info-camera">
+        <div class="container">
+            <span class="close" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
+            <h1>Camera Information</h1>
+            <!-- <p>Please fill in this form to add camera</p> -->
+            <hr>
+            <p class="cam-info"><strong>ID: </strong>cam2</p>
+            <span class="cam-info"><strong>Name: </strong><span class="cam-name-info"></span></span>
+            <button class="edit-name-btnn" style="background-color: transparent; border: none"><i
+                    class="fa-solid fa-pen-to-square fa-xl"></i></button>
+            <div class="edit-name">
+                <input type="text" placeholder="New name" class="edit"></input>
+                <button style="background-color: transparent; border: none" class="send-name"><i
+                        class="fa-solid fa-arrow-right"></i></button>
+            </div>
+            <p class="cam-info"><strong>Location: </strong>/cam2</p>
+            <p class="cam-info"><strong>Port: </strong>82</p>
+            <p class="cam-info"><strong>Protocol: </strong>RTSP</p>
+            <p class="cam-info"><strong>URL: </strong>34.127.2.194:554</p>
+            <hr>
+        </div>
+        <script>
+            var name = sessionStorage.getItem('name');
+            if (name != "undefined" && name != "null") {
+            }
+            else
+                document.location.href = '/login';
 
-        let player1 = new JSMpeg.Player('ws://<%=streamHost%>:82', {
-            canvas: document.getElementById('canvas-cam1'), // Canvas should be a canvas DOM element
-            autoplay: true,
-            audio: false,
-        });
-    </script>
+            // Record change
+            const onRecord = document.querySelector('.add-record');
+            onRecord.addEventListener('click', () => {
+                const blinkPosition = document.querySelector('.blink');
+                blinkPosition.classList.toggle('blink_me');
+            })
+
+            const camNumber = document.querySelector('.indigo').children[1].getAttribute("href").split("/").pop();;
+            const camElementInfo = document.querySelector('.cam-name-info');
+            const camElement = document.querySelector('.cam-name');
+            const setNameToCam = () => {
+                fetch('/get-cam-name')
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                        camElement.innerText = Object.values(data)[camNumber];
+                        camElementInfo.innerText = Object.values(data)[camNumber];
+                    });
+            }
+            setNameToCam();
+
+            const showInfo = document.querySelector('.edit-name-btn');
+
+            showInfo.addEventListener('click', () => {
+                const popupInfo = document.querySelector('.popup-info-camera');
+                popupInfo.style.display = 'block';
+            })
+
+            var elementToChangeName;
+            var editInput;
+            const editName = document.querySelector('.edit-name-btnn');
+            editName.addEventListener('click', () => {
+                editInput = editName.nextElementSibling;
+                editInput.classList.toggle('display');
+            })
+
+            const sendButton = document.querySelector('.send-name');
+            sendButton.addEventListener('click', () => {
+                var inputValue = sendButton.previousElementSibling.value;
+                // Shape of API
+                changeName(camElementInfo, inputValue);
+                changeName(camElement, inputValue);
+                // API To change name
+                changeNameAPI({ 'id': camNumber, 'name': inputValue });
+                editInput.classList.remove('display');
+            })
+            const changeNameAPI = (name) => {
+                fetch('/change-name', {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(name)
+                }).then(res => {
+                    console.log('completed changed name!');
+                }).catch(err => console.log(err));
+            }
+
+            function changeName(element, name) {
+                element.innerText = name;
+            }
+            let player1 = new JSMpeg.Player('ws://<%=streamHost%>:82', {
+                canvas: document.getElementById('canvas-cam2'), // Canvas should be a canvas DOM element
+                autoplay: true,
+                audio: false,
+            });
+        </script>
 </body>
 
 </html>

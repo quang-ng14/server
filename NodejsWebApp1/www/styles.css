@@ -187,7 +187,8 @@ i {
 }
 
 .edit-name-btn:hover,
-.send-name:hover {
+.send-name:hover,
+.edit-name-btnn {
     cursor: pointer;
 }
 
@@ -817,4 +818,165 @@ color:rgb(34, 122, 255)!important;
     margin: -31px 2px 6px 24px;
     display: block;
     list-style: none;
+}
+
+/* Add padding to containers */
+.container {
+    margin: 0 auto;
+    width: 350px;
+    padding: 16px;
+    background: rgb(151, 188, 255);
+    border-radius: 20px;
+}
+
+/* Full-width input fields */
+.input-camera {
+    width: 90%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.input-camera:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+/* Overwrite default styles of hr */
+hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 20px;
+}
+
+/* Set a style for the submit/register button */
+.addcamerabtn {
+    background-color: #3f51b5;
+    color: white;
+    padding: 16px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+    border-radius: 20px;
+}
+
+.addcamerabtn:hover {
+    opacity: 1;
+}
+
+/* Add a blue text color to links */
+a {
+    color: #3f51b5;
+}
+
+/* Set a grey background color and center the text of the "sign in" section */
+.signin {
+    background-color: #f1f1f1;
+    text-align: center;
+}
+
+.popup-add-camera,
+.popup-info-camera {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+}
+
+
+/* The Close Button */
+.close {
+    color: #0333d3;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.alert {
+    padding: 20px;
+    background-color: #f44336;
+    color: white;
+    opacity: 1;
+    transition: opacity 0.6s;
+    margin-bottom: 15px;
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    right: 0;
+    bottom: 0;
+    width: 350px;
+    /* Full width */
+    height: 40px;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+}
+
+.alert.success {
+    background-color: #04AA6D;
+}
+
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtn:hover {
+    color: black;
+}
+
+.cam-info {
+    font-size: 18px;
+    padding: 10px;
+}
+
+.popup-info-camera {
+    padding-top: 30px;
+}
+
+.blink_me {
+    animation: blinker 2s linear infinite;
+    color: red;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
 }
